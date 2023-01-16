@@ -1,0 +1,16 @@
+name: "Post Tweet"
+
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+
+run:
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+      shell: bash
