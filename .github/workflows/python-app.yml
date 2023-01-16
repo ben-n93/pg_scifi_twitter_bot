@@ -22,9 +22,9 @@ jobs:
     - name: Checkout repository content
       uses: actions/checkout@master
     - name: Install requirements.txt
-      #run: |
-        #python -m pip install --upgrade pip
-        #python pip3 install requirements.txt
+      run: |
+        python -m pip install --upgrade pip
+        python pip3 install requirements.txt
     - name: Tweet
       run: |
         ls
