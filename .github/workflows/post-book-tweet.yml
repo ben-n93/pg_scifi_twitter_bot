@@ -1,6 +1,9 @@
 name: Post book tweet
 
-on: [workflow_dispatch]
+on: 
+  schedule: 
+  - cron: "0 7 * * *"
+  - cron: "0 2 * * *"
 
 permissions: write-all
 
