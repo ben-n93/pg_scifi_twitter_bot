@@ -18,7 +18,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    #- #name: Set enviromental secrets
+    #- name: Set enviromental secrets
       #env:
           #PG_TWITTER_ACCESS_TOKEN: ${{ secrets.PG_TWITTER_ACCESS_TOKEN }}
           #PG_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.PG_TWITTER_ACCESS_TOKEN_SECRET }}
@@ -29,4 +29,8 @@ jobs:
           #python twitter_bot.py
     - name: update repo
       run: |
-        git status
+        git config --global user.username ben-n93
+        git config --global user.password ${{ secrets.PERSONAL_ACCESS_TOKEN}}
+        git add --all
+        git commit -m "update"
+        git push
