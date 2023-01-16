@@ -24,7 +24,7 @@ jobs:
     - name: Install requirements.txt
       run: |
         python -m pip install --upgrade pip
-        pip3 -r install requirements.txt
+        pip install -r requirements.txt
     - name: Tweet
       run: |
         ls
