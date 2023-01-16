@@ -29,8 +29,10 @@ jobs:
           #python twitter_bot.py
     - name: update repo
       run: |
-        git config --global user.username ben-n93
-        git config --global user.password ${{ secrets.PERSONAL_ACCESS_TOKEN}}
+        git config user.email ${{ secrets.EMAIL }}
+        git config user.name "Ben"
+        git config user.username ben-n93
+        git config user.password ${{ secrets.PERSONAL_ACCESS_TOKEN}}
         git add --all
         git commit -m "update"
         git push
