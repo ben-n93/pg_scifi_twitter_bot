@@ -10,11 +10,11 @@ IDS_CSV = "IDs_log.csv"
 SF_CATALOG = "sf_catalog.csv"
 HEADERS = ["Text#", "Title"]
 
-CONSUMER_KEY = os.environ["PG_twitter_consumer_key"]
-CONSUMER_SECRET = os.environ["PG_twitter_consumer_secret"]
-ACCESS_TOKEN = os.environ["PG_twitter_access_token"]
-ACCESS_TOKEN_SECRET = os.environ["PG_twitter_access_token_secret"]
-BEARER_TOKEN = os.environ["PG_twitter_bearer_token"]
+CONSUMER_KEY = os.environ["PG_TWITTER_CONSUMER_KEY"]
+CONSUMER_SECRET = os.environ["PG_TWITTER_CONSUMER_SECRET"]
+ACCESS_TOKEN = os.environ["PG_TWITTER_ACCESS_TOKEN"]
+ACCESS_TOKEN_SECRET = os.environ["PG_TWITTER_ACCESS_TOKEN_SECRET"]
+BEARER_TOKEN = os.environ["PG_TWITTER_BEARER_TOKEN"]
 
 client = tweepy.Client(BEARER_TOKEN, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
