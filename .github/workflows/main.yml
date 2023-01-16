@@ -1,10 +1,6 @@
 name: "Post Tweet"
 
 
-on:
-  schedule:
-    - cron: "0 5 * * *"
-
 run:
   steps:
     - name: Install Python
