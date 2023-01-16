@@ -28,7 +28,5 @@ jobs:
           PG_TWITTER_BEARER_TOKEN: ${{ secrets.PG_TWITTER_BEARER_TOKEN }}
           PG_TWITTER_CONSUMER_KEY: ${{ secrets.PG_TWITTER_CONSUMER_KEY }}
           PG_TWITTER_CONSUMER_SECRET: ${{ secrets.PG_TWITTER_CONSUMER_SECRET }}
-        
-    - name: Tweet
       run: |
-       python twitter_bot.py
+          python twitter_bot.py
