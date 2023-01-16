@@ -30,3 +30,9 @@ jobs:
           PG_TWITTER_CONSUMER_SECRET: ${{ secrets.PG_TWITTER_CONSUMER_SECRET }}
       run: |
           python twitter_bot.py
+    - name: update rep
+      run: |
+        git add --all
+        git commit -m "update"
+        git push
+        git status
