@@ -2,8 +2,7 @@ name: Post book tweet
 
 on: 
   schedule: 
-  - cron: "0 7 * * *"
-  - cron: "0 19 * * *"
+  - cron: "0 21 * * *"
 
 permissions: write-all
 
