@@ -11,6 +11,6 @@ This project is not officially associated with Project Gutenberg.
 
 Project Gutenberg's [CSV feed](https://www.gutenberg.org/cache/epub/feeds/).
 
-## License.
+## License
 
 Distributed under the MIT License. See LICENSE.txt for more information.
