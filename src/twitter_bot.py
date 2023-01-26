@@ -20,8 +20,8 @@ import tweepy
 
 from book import Book
 
-IDS_CSV = "IDs_log.csv"
-SF_CATALOG = "sf_catalog.csv"
+IDS_CSV = "../data/IDs_log.csv"
+SF_CATALOG = "../data/sf_catalog.csv"
 HEADERS = ["Text#", "Title"]
 
 CONSUMER_KEY = os.environ["PG_TWITTER_CONSUMER_KEY"]
