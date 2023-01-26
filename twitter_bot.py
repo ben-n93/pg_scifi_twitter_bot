@@ -1,3 +1,17 @@
+""" Module for choosing a science-fiction book to be posted to Twitter.
+
+Extended Summary
+----------------
+This script chooses a random science fiction from Project Gutenberg's
+collection of public domain works to be posted to Twitter.
+
+There is also as check to see if all the sci-fi books in Project
+Guntenberg's collection has already been posted to Twitter, in
+which case the IDs log is cleared so that previously posted
+about books can be tweeted about again.
+
+"""
+
 import os 
 import csv
 import random
