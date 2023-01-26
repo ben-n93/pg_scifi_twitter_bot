@@ -1,8 +1,7 @@
 """Book class module."""
 
 class Book:
-    """A book from the Project Guntenberg collection. 
-    """
+    """A book from the Project Guntenberg collection."""
     
     def __init__(self, ID, title, authors):
         """ Constructor method.
