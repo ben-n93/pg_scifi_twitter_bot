@@ -67,7 +67,7 @@ while flag == False:
         book_pick = Book(random_pick["Text#"], random_pick["Title"],random_pick["Authors"])
         with open(IDS_CSV, 'a') as f:
             csv_writer = csv.DictWriter(f, HEADERS)
-            csv_writer.writerow({"Text#":book_pick.ID, "Title":book_pick.title})
+            csv_writer.writerow({"Text#":book_pick.text_ID, "Title":book_pick.title})
 
 # Post to Twitter.
 authors_string = " and ".join(book_pick.authors)
