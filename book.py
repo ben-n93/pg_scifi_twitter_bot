@@ -1,7 +1,24 @@
 """Book class module."""
 
 class Book:
-    "A book from the Project Guntenberg collection."
+    """A book from the Project Guntenberg collection.
+    
+    Parameters
+    ----------
+    ID : str
+         A unique ID used in the Project Guntenberg archive.
+    title : str
+            Title of the book.
+    authors : str
+            Authors (including illustrators) of the book.
+         
+    Attributes
+    ----------
+    URL : str
+        The Project Guntenberg URL of the book.
+    
+    
+    """
     def __init__(self, ID, title, authors):
         self.ID = str(ID)
         self.title = title
