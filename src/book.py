@@ -3,12 +3,12 @@
 class Book:
     """A book from the Project Guntenberg collection."""
     
-    def __init__(self, ID, title, authors):
+    def __init__(self, text_ID, title, authors):
         """ Constructor method.
         
         Parameters
         ----------
-        ID : str
+        text_ID : str
              A unique ID used in the Project Guntenberg archive.
         title : str
                 Title of the book.
@@ -21,7 +21,7 @@ class Book:
             The Project Guntenberg URL of the book.
         
         """
-        self.ID = str(ID)
+        self.text_ID = str(text_ID)
         self.title = title
         self.URL = f"https://www.gutenberg.org/ebooks/{ID}"
 
