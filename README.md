@@ -1,1 +1,1 @@
-# Project Guntenberg Sci-Fi book recommendations Twitter bot
+# Project Guntenberg Sci-Fi Twitter bot
