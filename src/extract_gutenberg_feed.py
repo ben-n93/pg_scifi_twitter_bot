@@ -6,6 +6,10 @@ import csv
 
 import requests
 
+IDS_CSV = "../data/IDs_log.csv"
+SF_CATALOG = "../data/sf_catalog.csv"
+PG_CATALOG = "../data/pg_catalog.csv"
+
 # Access Project Guntenberg CSV feed and write catalog to CSV file.
 URL = "https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv"
 
@@ -15,9 +19,9 @@ with open(os.path.split(URL)[1], 'wb') as f, \
         f.write(line+'\n'.encode())
 
 # Create/replace CSV file with science fiction books.
-os.remove("sf_catalog.csv")
+os.remove(SF_CATALOG)
 
-with open("pg_catalog.csv") as input_file, open("sf_catalog.csv", 'a') as output_file:
+with open(PG_CATALOG) as input_file, open(SF_CATALOG, 'a') as output_file:
 
     field_names = ['Text#', 'Title', 'Authors']
     csv_reader = csv.DictReader(input_file)
