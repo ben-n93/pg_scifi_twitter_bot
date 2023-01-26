@@ -3,8 +3,9 @@
 class Book:
     "A book from the Project Guntenberg collection."
     def __init__(self, ID, title, authors):
-        self.ID = str(ID) # To write to CSV file.
+        self.ID = str(ID)
         self.title = title
+        self.URL = f"https://www.gutenberg.org/ebooks/{ID}"
 
         # Cleaning authors raw data.
         individual_authors = authors.split(";")
@@ -26,4 +27,3 @@ class Book:
             cleaned_author = " ".join(new_author_words)
             cleaned_authors.append(cleaned_author)
         self.authors = cleaned_authors
-        self.URL = f"https://www.gutenberg.org/ebooks/{ID}"
