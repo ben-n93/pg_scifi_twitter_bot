@@ -6,9 +6,9 @@ import csv
 
 import requests
 
-IDS_CSV = "../data/IDs_log.csv"
-SF_CATALOG = "../data/sf_catalog.csv"
-PG_CATALOG = "../data/pg_catalog.csv"
+IDS_CSV = "data/IDs_log.csv"
+SF_CATALOG = "data/sf_catalog.csv"
+PG_CATALOG = "data/pg_catalog.csv"
 
 # Access Project Guntenberg CSV feed and write catalog to CSV file.
 URL = "https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv"
