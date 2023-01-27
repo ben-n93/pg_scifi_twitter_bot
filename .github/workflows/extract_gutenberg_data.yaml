@@ -1,4 +1,4 @@
-name: Extract Gutenberg data.
+name: Extract Gutenberg data
 
 on: 
   schedule: 
