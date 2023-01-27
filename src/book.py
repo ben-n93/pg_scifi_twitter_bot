@@ -23,7 +23,7 @@ class Book:
         """
         self.text_ID = str(text_ID)
         self.title = title
-        self.URL = f"https://www.gutenberg.org/ebooks/{ID}"
+        self.URL = f"https://www.gutenberg.org/ebooks/{text_ID}"
 
         # Cleaning authors raw data.
         individual_authors = authors.split(";")
