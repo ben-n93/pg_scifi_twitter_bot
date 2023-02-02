@@ -60,7 +60,7 @@ while flag == False:
         text_rows = [row['Text#'] for row in csv_reader]
         title_rows = [row['Title'] for row in csv_reader]
     if random_pick["Text#"] in text_rows or random_pick["Title"] in title_rows:
-        random_pick = sf_rows[random.randint(0, rows_count)]
+        random_pick = sf_rows[random.randint(0, sf_rows_count)]
         continue
     else:
         flag = True
