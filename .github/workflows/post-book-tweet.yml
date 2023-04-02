@@ -1,8 +1,7 @@
 name: Post book tweet
 
-#on: [workflow_dispatch] # Manual trigger of workflow.
-
 on: 
+  workflow_dispatch:
   schedule: 
   - cron: "0 7 * * *"
   - cron: "0 19 * * *"
