@@ -21,11 +21,18 @@ class Book:
             The Project Guntenberg URL of the book.
         
         """
+        
         self.text_ID = str(text_ID)
         self.title = title
         self.URL = f"https://www.gutenberg.org/ebooks/{text_ID}"
+        self.authors = self.clean_authors_data(authors)
 
-        # Cleaning authors raw data.
+        
+    def clean_authors_data(self, authors):
+        """Split up the author's names based on the semicolon delimiter, 
+        remove any commas, and replaces [Illustrator] with just the author's 
+        name."""
+        
         individual_authors = authors.split(";")
         cleaned_authors = []
         for author in individual_authors:
