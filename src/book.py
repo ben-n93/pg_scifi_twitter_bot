@@ -51,4 +51,4 @@ class Book:
                     pass
             cleaned_author = " ".join(new_author_words)
             cleaned_authors.append(cleaned_author)
-        self.authors = cleaned_authors
+        return cleaned_authors
