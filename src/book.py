@@ -29,9 +29,7 @@ class Book:
 
         
     def clean_authors_data(self, authors):
-        """Split up the author's names based on the semicolon delimiter, 
-        remove any commas, and replaces [Illustrator] with just the author's 
-        name."""
+        """Clean the authors metadata."""
         
         individual_authors = authors.split(";")
         cleaned_authors = []
