@@ -1,7 +1,6 @@
 """ Module for capturing the latest CSV data from Project Guntenberg's data feed.
 """
 
-import os 
 import csv
 
 import requests
