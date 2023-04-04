@@ -25,10 +25,10 @@ class Book:
         self.text_ID = str(text_ID)
         self.title = title
         self.URL = f"https://www.gutenberg.org/ebooks/{text_ID}"
-        self.authors = self.clean_authors_data(authors)
+        self.authors = self._clean_authors_data(authors)
 
         
-    def clean_authors_data(self, authors):
+    def _clean_authors_data(self, authors):
         """Clean the authors metadata."""
         
         individual_authors = authors.split(";")
