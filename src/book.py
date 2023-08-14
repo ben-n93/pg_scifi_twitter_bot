@@ -2,7 +2,7 @@
 
 class Book:
     """A book from the Project Guntenberg collection."""
-    
+
     def __init__(self, text_ID, title, authors):
         """ Constructor method.
         
@@ -21,16 +21,16 @@ class Book:
             The Project Guntenberg URL of the book.
         
         """
-        
+
         self.text_ID = str(text_ID)
         self.title = title
         self.URL = f"https://www.gutenberg.org/ebooks/{text_ID}"
         self.authors = self._clean_authors_data(authors)
 
-        
+
     def _clean_authors_data(self, authors):
         """Clean the authors metadata."""
-        
+
         individual_authors = authors.split(";")
         cleaned_authors = []
         for author in individual_authors:

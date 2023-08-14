@@ -12,11 +12,11 @@ about books can be tweeted about again.
 
 """
 
-import os 
+import os
 import csv
 import random
 
-import tweepy 
+import tweepy
 
 from book import Book
 
@@ -30,7 +30,8 @@ ACCESS_TOKEN = os.environ["PG_TWITTER_ACCESS_TOKEN"]
 ACCESS_TOKEN_SECRET = os.environ["PG_TWITTER_ACCESS_TOKEN_SECRET"]
 BEARER_TOKEN = os.environ["PG_TWITTER_BEARER_TOKEN"]
 
-client = tweepy.Client(BEARER_TOKEN, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+client = tweepy.Client(BEARER_TOKEN, CONSUMER_KEY, CONSUMER_SECRET, 
+                       ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 # Pick random book to be posted to Twitter.
 with open(SF_CATALOG) as sf_csv, open(IDS_CSV) as IDs_csv:
@@ -54,7 +55,7 @@ random_pick = sf_rows[random.randint(0, sf_rows_count)]
 # Check to make sure the book chosen hasn't already been posted previously.
 books_to_log = []
 flag = False
-while flag == False:
+while flag is False:
     with open(IDS_CSV) as f:
         csv_reader = csv.DictReader(f)
         text_rows = [row['Text#'] for row in csv_reader]
@@ -65,14 +66,13 @@ while flag == False:
     if random_pick["Text#"] in text_rows:
         random_pick = sf_rows[random.randint(0, sf_rows_count)]
         continue
-    else:
-        flag = True
-        book_pick = Book(random_pick["Text#"], random_pick["Title"],random_pick["Authors"])
-        books_to_log.append(book_pick)
-        with open(IDS_CSV, 'a') as f:
-            csv_writer = csv.DictWriter(f, HEADERS)
-            for book in books_to_log:
-                csv_writer.writerow({"Text#":book.text_ID, "Title":book.title})
+    flag = True
+    book_pick = Book(random_pick["Text#"], random_pick["Title"],random_pick["Authors"])
+    books_to_log.append(book_pick)
+    with open(IDS_CSV, 'a') as f:
+        csv_writer = csv.DictWriter(f, HEADERS)
+        for book in books_to_log:
+            csv_writer.writerow({"Text#":book.text_ID, "Title":book.title})
 
 # Post to Twitter.
 authors_string = " and ".join(book_pick.authors)

@@ -13,7 +13,7 @@ PG_CATALOG = "data/pg_catalog.csv"
 URL = "https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv"
 
 with open(PG_CATALOG, 'wb') as f:
-    content = requests.get(URL, stream=True)
+    content = requests.get(URL, stream=True, timeout=240)
     for line in content.iter_lines():
         f.write(line+'\n'.encode())
 
@@ -25,4 +25,5 @@ with open(PG_CATALOG) as input_file, open(SF_CATALOG, 'w') as output_file:
     csv_writer.writeheader()
     for row in csv_reader:
         if "Science Fiction" in row["Bookshelves"] and row["Type"] == "Text":
-            csv_writer.writerow({"Text#":row["Text#"], "Title":row["Title"], "Authors":row["Authors"]})
+            csv_writer.writerow({"Text#":row["Text#"], "Title":row["Title"], 
+            "Authors":row["Authors"]})
