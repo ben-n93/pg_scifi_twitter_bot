@@ -1,7 +1,5 @@
-""" Module for choosing a science-fiction book to be posted to Twitter.
+""" Module for choosing and posting a science-fiction book to Twitter.
 
-Extended Summary
-----------------
 This script chooses a random science fiction from Project Gutenberg's
 collection of public domain works to be posted to Twitter.
 
