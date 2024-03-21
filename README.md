@@ -1,3 +1,5 @@
+![build](https://github.com/ben-n93/Project_Guntenberg_SF_TwitterBot/actions/workflows/post-book-tweet.yml/badge.svg)
+
 # Project Guntenberg Sci-Fi Twitter bot
 
 This is the source code for [Gutenberg_SciFi](https://twitter.com/Gutenberg_SciFi), a Twitter bot that posts about science fiction books
@@ -8,11 +10,3 @@ from [Project Gutenberg](https://www.gutenberg.org/)'s collection of public doma
 You can read about how I approached this project on my [website](https://ben-nour.com/how-i-created-a-book-recommendation-twitter-bot.html#how-i-created-a-book-recommendation-twitter-bot).
 
 This project is not officially associated with Project Gutenberg. 
-
-## Data source
-
-Project Gutenberg's [CSV feed](https://www.gutenberg.org/cache/epub/feeds/).
-
-## License
-
-Distributed under the MIT License. See LICENSE.txt for more information.
