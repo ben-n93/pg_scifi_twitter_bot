@@ -1,35 +1,40 @@
-""" Module for capturing the latest CSV data from Project Guntenberg's data feed.
-"""
+""" Module for capturing and uploading the latest CSV data from Project 
+Guntenberg's data feed."""
 
 import csv
+from io import StringIO
+import sqlite3
 
 import requests
 
-IDS_CSV = "data/IDs_log.csv"
-SF_CATALOG = "data/sf_catalog.csv"
-PG_CATALOG = "data/pg_catalog.csv"
 
 def extract_data():
-    """Extract catalog data from Project Gutenberg.
+    """Extract catalog data from Project Gutenberg and upload to database."""
+    database = "/Users/benjaminnour/Documents/Python/books.db"
+    SQL = """
+    INSERT INTO books_catalog (book_id, title, authors)
+    VALUES (?, ?, ?)
     """
-    # Access Project Guntenberg CSV feed and write catalog to CSV file.
     URL = "https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv"
-    
-    with open(PG_CATALOG, 'wb') as f:
-        content = requests.get(URL, stream=True, timeout=240)
-        for line in content.iter_lines():
-            f.write(line+'\n'.encode())
-    
-    # Create CSV file of science fiction books.
-    with open(PG_CATALOG) as input_file, open(SF_CATALOG, 'w') as output_file:
-        field_names = ['Text#', 'Title', 'Authors']
-        csv_reader = csv.DictReader(input_file)
-        csv_writer = csv.DictWriter(output_file, field_names)
-        csv_writer.writeheader()
-        for row in csv_reader:
-            if "Science Fiction" in row["Bookshelves"] and row["Type"] == "Text":
-                csv_writer.writerow({"Text#":row["Text#"], "Title":row["Title"], 
-                "Authors":row["Authors"]})
 
-if __name__ == "__main__":
-    extract_data()
+    response = requests.get(URL, stream=True, timeout=240)
+    content = response.content.decode("utf-8")
+    csv_file = StringIO(content)
+    csv_reader = csv.reader(csv_file)
+    sf_books = [
+        row for row in csv_reader if row[1] == "Text" and "Science Fiction" in row[8]
+    ]
+    processed_sf_books = []
+    for book in sf_books:
+        processed_book = []
+        for index, field in enumerate(book):
+            if index in (0, 3, 5):
+                field = field.replace("\n", " ")
+                field = field.replace("\r", "")
+                processed_book.append(field)
+        processed_sf_books.append(processed_book)
+
+    with sqlite3.connect(database) as conn:
+        cursor = conn.cursor()
+        cursor.executemany(SQL, processed_sf_books)
+        conn.commit()

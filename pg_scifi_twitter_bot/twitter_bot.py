@@ -1,35 +1,48 @@
-""" Module for choosing and posting a science-fiction book to Twitter.
+"""Choose and post a science-fiction book to Twitter.
 
 This script chooses a random science fiction from Project Gutenberg's
 collection of public domain works to be posted to Twitter.
-
-There is also as check to see if all the sci-fi books in Project
-Guntenberg's collection has already been posted to Twitter, in
-which case the IDs log is cleared so that previously posted
-about books can be tweeted about again.
-
 """
 
 import os
 import csv
+import io
 import random
 import re
+import sqlite3
 
+import requests
 import tweepy
 
-IDS_CSV = "data/IDs_log.csv"
-SF_CATALOG = "data/sf_catalog.csv"
-HEADERS = ["Text#", "Title"]
+DATABASE = "../books.db"
 
+# SQL queries.
+ELIGIBLE_BOOKS = """
+SELECT 
+BC.*
+FROM books_catalog bc 
+	LEFT JOIN books_posted bp 
+	ON bc.BOOK_ID = bp.BOOK_ID
+	OR BC.TITLE = BP.TITLE 
+WHERE BP.BOOK_ID IS NULL
+"""
+
+BOOKS_REMAINING = """
+SELECT (SELECT COUNT(*) FROM books_catalog) - 
+(SELECT COUNT(*) FROM books_posted) AS DIFFERENCE
+"""
+
+UPLOAD_DATA = """
+INSERT INTO books_catalog (book_id, title, authors)
+VALUES (?, ?, ?)
+"""
+
+# Twitter credentials.
 CONSUMER_KEY = os.environ["PG_TWITTER_CONSUMER_KEY"]
 CONSUMER_SECRET = os.environ["PG_TWITTER_CONSUMER_SECRET"]
 ACCESS_TOKEN = os.environ["PG_TWITTER_ACCESS_TOKEN"]
 ACCESS_TOKEN_SECRET = os.environ["PG_TWITTER_ACCESS_TOKEN_SECRET"]
 BEARER_TOKEN = os.environ["PG_TWITTER_BEARER_TOKEN"]
-
-client = tweepy.Client(
-    BEARER_TOKEN, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
-)
 
 
 def clean_authors(authors):
@@ -52,57 +65,67 @@ def clean_authors(authors):
     return cleaned_authors
 
 
+def extract_data():
+    """Extract catalog data from Project Gutenberg."""
+    URL = "https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv"
+
+    response = requests.get(URL, stream=True, timeout=240)
+    content = response.content.decode("utf-8")
+    csv_file = io.StringIO(content)
+    csv_reader = csv.reader(csv_file)
+    sf_books = [
+        row for row in csv_reader if row[1] == "Text" and "Science Fiction" in row[8]
+    ]
+    processed_sf_books = []
+    for book in sf_books:
+        processed_book = []
+        for index, field in enumerate(book):
+            if index in (0, 3, 5):
+                field = field.replace("\n", " ")
+                field = field.replace("\r", "")
+                processed_book.append(field)
+        processed_sf_books.append(processed_book)
+
+    return processed_sf_books
+
+
 def post_tweet():
     """Pick a book and post to Twitter."""
-    # Pick random book to be posted to Twitter.
-    with open(SF_CATALOG) as sf_csv, open(IDS_CSV) as IDs_csv:
-        sf_csv_reader = csv.DictReader(sf_csv)
-        sf_rows = [row for row in sf_csv_reader]
-        sf_rows_count = len(sf_rows)
-
-        IDs_csv_reader = csv.DictReader(IDs_csv)
-        IDs_rows = [row for row in IDs_csv_reader]
-        IDs_rows_count = len(IDs_rows)
-
-    # Check to see if the Twitterbot has gone through all books in the SF catalog.
-    if sf_rows_count == IDs_rows_count:
-        with open(IDS_CSV, "w") as f:
-            csv_writer = csv.DictWriter(f, HEADERS)
-            csv_writer.writeheader()
-            csv_writer.writerow({"Text#": "0", "Title": "0"})
-
-    random_pick = sf_rows[random.randint(0, sf_rows_count)]
-
-    # Check to make sure the book chosen hasn't already been posted previously.
-    books_to_log = []
-    flag = False
-    while flag is False:
-        with open(IDS_CSV) as f:
-            csv_reader = csv.DictReader(f)
-            text_rows = [row["Text#"] for row in csv_reader]
-            title_rows = [row["Title"] for row in csv_reader]
-        if random_pick["Title"] in title_rows and random_pick["Text#"] not in text_rows:
-            same_book = Book(
-                random_pick["Text#"], random_pick["Title"], random_pick["Authors"]
+    # Check to see if Twitter Bot has posted all avaliable books.
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+        cursor.execute(BOOKS_REMAINING)
+        if cursor.fetchall()[0][0] == 0:
+            cursor.execute("DELETE FROM books_catalog;")
+            cursor.execute("DELETE FROM books_posted;")
+            processed_sf_books = extract_data()
+            cursor.executemany(
+                UPLOAD_DATA,
+                processed_sf_books,
             )
-            books_to_log.append(same_book)
-        if random_pick["Text#"] in text_rows:
-            random_pick = sf_rows[random.randint(0, sf_rows_count)]
-            continue
-        flag = True
-        authors = clean_authors(random_pick["Authors"])
-        url = random_pick["Text#"]
-        url = f"https://www.gutenberg.org/ebooks/{url}"
-        book_pick = (random_pick["Text#"], random_pick["Title"], authors, url)
-        books_to_log.append(book_pick)
-        with open(IDS_CSV, "a") as f:
-            csv_writer = csv.DictWriter(f, HEADERS)
-            for book in books_to_log:
-                csv_writer.writerow({"Text#": book[0], "Title": book[1]})
+        # Pick random book to be posted to Twitter.
+        potential_picks = cursor.execute(ELIGIBLE_BOOKS).fetchall()
+        pick = potential_picks[random.randint(0, len(potential_picks))]
+        url = f"https://www.gutenberg.org/ebooks/{pick[0]}"
+        authors = clean_authors(pick[2])
 
-    client.create_tweet(
-        text=f"Check out {book_pick[1]} by {book[2]}. #ebook #sciencefiction {book_pick[3]}"
-    )
+        # Post to Twitter.
+        client = tweepy.Client(
+            BEARER_TOKEN,
+            CONSUMER_KEY,
+            CONSUMER_SECRET,
+            ACCESS_TOKEN,
+            ACCESS_TOKEN_SECRET,
+        )
+        client.create_tweet(
+            text=f"Check out {pick[0]} by {authors}, #ebook #sciencefiction {url}"
+        )
+
+        # Log posted book.
+        cursor.execute(
+            "INSERT INTO books_posted (book_id, title) VALUES (?, ?)",
+            (pick[0], pick[1]),
+        )
 
 
 if __name__ == "__main__":
