@@ -23,7 +23,7 @@ jobs:
         pip install requests
     - name: Execute Python file.
       run: |
-          python src/extract_gutenberg_feed.py
+          python pg_scifi_twitter_bot/extract_gutenberg_feed.py
     - name: update repo
       run: |
         git config user.email ${{ secrets.EMAIL }}

@@ -30,7 +30,7 @@ jobs:
           PG_TWITTER_CONSUMER_KEY: ${{ secrets.PG_TWITTER_CONSUMER_KEY }}
           PG_TWITTER_CONSUMER_SECRET: ${{ secrets.PG_TWITTER_CONSUMER_SECRET }}
       run: |
-          python src/twitter_bot.py
+          python pg_scifi_twitter_bot/twitter_bot.py
     - name: update repo
       run: |
         git config user.email ${{ secrets.EMAIL }}
