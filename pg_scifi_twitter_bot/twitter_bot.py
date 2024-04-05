@@ -31,6 +31,7 @@ client = tweepy.Client(
     BEARER_TOKEN, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 )
 
+
 def clean_authors(authors):
     """Clean the authors string into a more
     readable string."""
@@ -90,7 +91,8 @@ def post_tweet():
             continue
         flag = True
         authors = clean_authors(random_pick["Authors"])
-        url = f"https://www.gutenberg.org/ebooks/{random_pick["Text#"]}"
+        url = random_pick["Text#"]
+        url = f"https://www.gutenberg.org/ebooks/{url}"
         book_pick = (random_pick["Text#"], random_pick["Title"], authors, url)
         books_to_log.append(book_pick)
         with open(IDS_CSV, "a") as f:
@@ -101,6 +103,7 @@ def post_tweet():
     client.create_tweet(
         text=f"Check out {book_pick[1]} by {book[2]}. #ebook #sciencefiction {book_pick[3]}"
     )
+
 
 if __name__ == "__main__":
     post_tweet()
