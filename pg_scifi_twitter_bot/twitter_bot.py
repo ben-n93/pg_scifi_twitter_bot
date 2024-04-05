@@ -118,7 +118,7 @@ def post_tweet():
             ACCESS_TOKEN_SECRET,
         )
         client.create_tweet(
-            text=f"Check out {pick[0]} by {authors}, #ebook #sciencefiction {url}"
+            text=f"Check out {pick[1]} by {authors}, #ebook #sciencefiction {url}"
         )
 
         # Log posted book.
