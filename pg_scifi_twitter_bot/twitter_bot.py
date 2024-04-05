@@ -14,7 +14,7 @@ import sqlite3
 import requests
 import tweepy
 
-DATABASE = "../books.db"
+DATABASE = "books.db"
 
 # SQL queries.
 ELIGIBLE_BOOKS = """
