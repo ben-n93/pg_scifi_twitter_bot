@@ -56,7 +56,7 @@ def clean_authors(authors):
     for author in authors:
         if (match := re.search(PATTERN, author)) is not None:
             new_author = re.sub(PATTERN, "", author)
-            new_author = [word.strip() for word in new_author.split(",")]
+            new_author = [word.strip() for word in new_author.split(",") if word != " "]
             new_author.reverse()
             new_author.append(match.group())
             new_author = " ".join(new_author)
