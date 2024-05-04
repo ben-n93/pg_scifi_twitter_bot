@@ -12,6 +12,7 @@ import re
 import sqlite3
 
 import requests
+
 import tweepy
 
 DATABASE = "books.db"
@@ -50,7 +51,9 @@ def clean_authors(authors):
     """Clean the authors string into a more
     readable string."""
     # Remove years from authors' names and split.
-    authors = [re.sub(" [0-9]{4}-[0-9]{4}", "", author) for author in authors.split(";")]
+    authors = [
+        re.sub(", [0-9]{4}-[0-9]{4}", "", author) for author in authors.split(";")
+    ]
     # Clean each individual authors' name.
     cleaned_authors = []
     for author in authors:
