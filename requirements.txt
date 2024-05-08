@@ -3,7 +3,7 @@ beautifulsoup4==4.11.1
 certifi
 charset-normalizer==3.0.1
 dill==0.3.8
-idna==3.4
+idna>=3.4
 isort==5.13.2
 mccabe==0.7.0
 oauthlib==3.2.2
