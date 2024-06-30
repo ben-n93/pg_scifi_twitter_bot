@@ -7,6 +7,6 @@ from [Project Gutenberg](https://www.gutenberg.org/)'s collection of public doma
 
 <img width="598" alt="twitter_bot" src="https://user-images.githubusercontent.com/84557025/214783740-98ab30a5-9075-4886-9687-b54d3d049d43.png">
 
-You can read about how I approached this project on my [website](https://ben-nour.com/how-i-created-a-book-recommendation-twitter-bot.html#how-i-created-a-book-recommendation-twitter-bot).
+You can read about how I approached this project on my [website](https://ben-nour.com/how-i-created-a-twitter-bot-that-posts-about-science-fiction-books.html).
 
 This project is not officially associated with Project Gutenberg. 
